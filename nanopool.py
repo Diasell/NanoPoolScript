@@ -1,4 +1,5 @@
 import os
+import sys
 import requests
 import threading
 import logging
@@ -9,8 +10,11 @@ dirname = os.path.dirname(__file__)
 
 server = smtplib.SMTP('smtp.gmail.com', 587)
 server.starttls()
-server.login("gutsalyuk.taras@gmail.com", "borfyzoibjupyxlc")
-
+smtp_password = os.environ.get('SMTP_GMAIL_KEY')
+if smtp_password:
+    server.login("gutsalyuk.taras@gmail.com", smtp_password)
+else:
+    sys.exit("smtp login error")
 
 TIMEOUT = 900.0 # delay in seconds(900sec = 15min)
 MINERASSISTANT = "http://127.0.0.1:8000/nanopool/"
